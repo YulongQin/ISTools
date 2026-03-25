@@ -30,7 +30,7 @@ Global option to call \code{gc()} after memory-intensive operations (e.g., large
 This helps clean up the R session memory and prevents swap space usage.
 Defaults to \code{TRUE}. Setting to \code{FALSE} can speed up computation in high-RAM environments.
 }
-\item{\\code{ISTools.parallel.threads}}{
+\item{\code{ISTools.parallel.threads}}{
 Controls the default number of threads for parallel operations (using \pkg{foreach} and \pkg{parallel}).
 Defaults to half of the available physical cores. Set to \code{1} to disable parallelization.
 }
@@ -60,13 +60,13 @@ If you use ISTools in your publication, please cite:
 \seealso{
 Useful links:
 \itemize{
-\item Homepage: \url{https://github.com/yourusername/ISTools}
-\item Documentation: \url{https://yourusername.github.io/ISTools/}
-\item Report bugs at \url{https://github.com/yourusername/ISTools/issues}
+\item Homepage: \url{https://github.com/YulongQin/ISTools}
+\item Documentation: \url{https://YulongQin.github.io/ISTools/}
+\item Report bugs at \url{https://github.com/YulongQin/ISTools/issues}
 }
 }
 \author{
-\strong{Maintainer}: Yulong Qin \email{524583919@qq.com} (ORCID)
+\strong{Maintainer}: Yulong Qin \email{qyl3700@foxmail.com} (ORCID: 0009-0009-2761-0750)
 
 \strong{Contributors}:
 \itemize{

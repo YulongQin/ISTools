@@ -37,7 +37,7 @@ ISTools uses the following
   Defaults to `TRUE`. Setting to `FALSE` can speed up computation in
   high-RAM environments.
 
-- \codeISTools.parallel.threads:
+- `ISTools.parallel.threads`:
 
   Controls the default number of threads for parallel operations (using
   foreach and parallel). Defaults to half of the available physical
@@ -78,15 +78,16 @@ If you use ISTools in your publication, please cite:
 
 Useful links:
 
-- Homepage: <https://github.com/yourusername/ISTools>
+- Homepage: <https://github.com/YulongQin/ISTools>
 
-- Documentation: <https://yourusername.github.io/ISTools/>
+- Documentation: <https://YulongQin.github.io/ISTools/>
 
-- Report bugs at <https://github.com/yourusername/ISTools/issues>
+- Report bugs at <https://github.com/YulongQin/ISTools/issues>
 
 ## Author
 
-**Maintainer**: Yulong Qin <524583919@qq.com> (ORCID)
+**Maintainer**: Yulong Qin <qyl3700@foxmail.com> (ORCID:
+0009-0009-2761-0750)
 
 **Contributors**:
 

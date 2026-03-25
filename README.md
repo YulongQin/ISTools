@@ -74,6 +74,25 @@ isolated library path.
 This prevents conflicts with existing R environments and improves
 reproducibility.
 
+### Pre-installation requirements
+
+Before installing ISTools, we recommend manually installing a small set
+of core system-dependent packages that are frequently associated with
+installation failures.
+
+Installing them in advance can significantly reduce the likelihood of
+installation errors.
+
+``` r
+# Core system-related dependencies 
+install.packages("openssl") # may fail due to network or SSL configuration; retry if necessary 
+install.packages("curl") # required for data transfer and remote access 
+
+# Core R infrastructure 
+install.packages("rlang") # >= 1.1.7, required by tidyverse ecosystem 
+install.packages("Matrix", type = "binary") # >= 1.6.5, required for sparse matrix operations
+```
+
 ### Install ISTools
 
 ``` r

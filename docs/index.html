@@ -116,9 +116,23 @@
 <p>This prevents conflicts with existing R environments and improves reproducibility.</p>
 </div>
 <div class="section level3">
+<h3 id="pre-installation-requirements">Pre-installation requirements<a class="anchor" aria-label="anchor" href="#pre-installation-requirements"></a>
+</h3>
+<p>Before installing ISTools, we recommend manually installing a small set of core system-dependent packages that are frequently associated with installation failures.</p>
+<p>Installing them in advance can significantly reduce the likelihood of installation errors.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Core system-related dependencies </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"openssl"</span><span class="op">)</span> <span class="co"># may fail due to network or SSL configuration; retry if necessary </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="co"># required for data transfer and remote access </span></span>
+<span></span>
+<span><span class="co"># Core R infrastructure </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rlang"</span><span class="op">)</span> <span class="co"># &gt;= 1.1.7, required by tidyverse ecosystem </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"Matrix"</span>, type <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span> <span class="co"># &gt;= 1.6.5, required for sparse matrix operations</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="install-istools">Install ISTools<a class="anchor" aria-label="anchor" href="#install-istools"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>

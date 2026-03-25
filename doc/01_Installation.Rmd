@@ -62,6 +62,24 @@ This prevents conflicts with existing R environments and improves reproducibilit
 
 ------------------------------------------------------------------------
 
+# Pre-installation requirements
+
+Before installing ISTools, we recommend manually installing a small set of core system-dependent packages that are frequently associated with installation failures.
+
+Installing them in advance can significantly reduce the likelihood of installation errors.
+
+``` r
+# Core system-related dependencies 
+install.packages("openssl") # may fail due to network or SSL configuration; retry if necessary 
+install.packages("curl") # required for data transfer and remote access 
+
+# Core R infrastructure 
+install.packages("rlang") # >= 1.1.7, required by tidyverse ecosystem 
+install.packages("Matrix", type = "binary") # >= 1.6.5, required for sparse matrix operations
+```
+
+------------------------------------------------------------------------
+
 # Install ISTools
 
 ``` r
@@ -87,13 +105,13 @@ pkg_imports <- c("anndata", "AnnotationDbi", "assertthat", "AUCell", "Biostrings
              "concaveman", "data.table", "dbscan", "distances", "doParallel", "DOSE", "dplyr",
              "DT", "FNN", "foreach", "furrr", "future", "ggdensity", "ggforce", "ggh4x",
              "ggnewscale", "ggplot2", "ggraph", "ggrepel", "ggsignif", "ggvenn", "GO.db",
-             "GOSemSim", "igraph", "imager", "magrittr", "Matrix", "methods", "mistyR",
+             "GOSemSim", "igraph", "imager", "magrittr", "Matrix", "methods", 
              "paletteer", "patchwork", "proxy", "psych", "purrr", "rBLAST", "reticulate",
              "rjson", "rlang", "scales", "Seurat", "SeuratDisk", "SeuratObject", "shiny",
              "shinycssloaders", "sp", "STRINGdb", "stringr", "SummarizedExperiment",
              "tibble", "tidyr", "UCell", "viridis", "zip")
 
-pkg_suggests <- c("CellChat", "knitr", "nichenetr", "org.Hs.eg.db",
+pkg_suggests <- c("CellChat", "knitr", "mistyR", "nichenetr", "org.Hs.eg.db",
                   "org.Mm.eg.db", "rmarkdown", "SingleR", "testthat")
 
 check_missing_packages <- function(pkg_list) {

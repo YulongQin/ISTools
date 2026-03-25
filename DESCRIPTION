@@ -50,7 +50,6 @@ Imports:
     magrittr,
     Matrix (>= 1.6.5),
     methods,
-    mistyR,
     paletteer,
     patchwork,
     proxy,
@@ -78,6 +77,7 @@ Imports:
 Suggests: 
     CellChat,
     knitr,
+    mistyR,
     nichenetr,
     org.Hs.eg.db,
     org.Mm.eg.db,

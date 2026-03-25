@@ -386,13 +386,29 @@ an isolated library path.</p>
 reproducibility.</p>
 <hr />
 </div>
+<div id="pre-installation-requirements" class="section level1">
+<h1>Pre-installation requirements</h1>
+<p>Before installing ISTools, we recommend manually installing a small
+set of core system-dependent packages that are frequently associated
+with installation failures.</p>
+<p>Installing them in advance can significantly reduce the likelihood of
+installation errors.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Core system-related dependencies </span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;openssl&quot;</span>) <span class="co"># may fail due to network or SSL configuration; retry if necessary </span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;curl&quot;</span>) <span class="co"># required for data transfer and remote access </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Core R infrastructure </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;rlang&quot;</span>) <span class="co"># &gt;= 1.1.7, required by tidyverse ecosystem </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;Matrix&quot;</span>, <span class="at">type =</span> <span class="st">&quot;binary&quot;</span>) <span class="co"># &gt;= 1.6.5, required for sparse matrix operations</span></span></code></pre></div>
+<hr />
+</div>
 <div id="install-istools" class="section level1">
 <h1>Install ISTools</h1>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>}</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;YulongQin/ISTools&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>}</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;YulongQin/ISTools&quot;</span>)</span></code></pre></div>
 <blockquote>
 <p>Installation from source is recommended and may take approximately
 20–30 minutes depending on system configuration.</p>
@@ -406,83 +422,83 @@ The package in the Suggests will not be installed automatically. If you
 need to use it later, you will have to install it manually.</p>
 <p>To ensure all required packages are installed with correct versions,
 the following utility function can be used.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>pkg_imports <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;anndata&quot;</span>, <span class="st">&quot;AnnotationDbi&quot;</span>, <span class="st">&quot;assertthat&quot;</span>, <span class="st">&quot;AUCell&quot;</span>, <span class="st">&quot;Biostrings&quot;</span>, <span class="st">&quot;clusterProfiler&quot;</span>,</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>             <span class="st">&quot;concaveman&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;dbscan&quot;</span>, <span class="st">&quot;distances&quot;</span>, <span class="st">&quot;doParallel&quot;</span>, <span class="st">&quot;DOSE&quot;</span>, <span class="st">&quot;dplyr&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>             <span class="st">&quot;DT&quot;</span>, <span class="st">&quot;FNN&quot;</span>, <span class="st">&quot;foreach&quot;</span>, <span class="st">&quot;furrr&quot;</span>, <span class="st">&quot;future&quot;</span>, <span class="st">&quot;ggdensity&quot;</span>, <span class="st">&quot;ggforce&quot;</span>, <span class="st">&quot;ggh4x&quot;</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>             <span class="st">&quot;ggnewscale&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;ggraph&quot;</span>, <span class="st">&quot;ggrepel&quot;</span>, <span class="st">&quot;ggsignif&quot;</span>, <span class="st">&quot;ggvenn&quot;</span>, <span class="st">&quot;GO.db&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>             <span class="st">&quot;GOSemSim&quot;</span>, <span class="st">&quot;igraph&quot;</span>, <span class="st">&quot;imager&quot;</span>, <span class="st">&quot;magrittr&quot;</span>, <span class="st">&quot;Matrix&quot;</span>, <span class="st">&quot;methods&quot;</span>, <span class="st">&quot;mistyR&quot;</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>             <span class="st">&quot;paletteer&quot;</span>, <span class="st">&quot;patchwork&quot;</span>, <span class="st">&quot;proxy&quot;</span>, <span class="st">&quot;psych&quot;</span>, <span class="st">&quot;purrr&quot;</span>, <span class="st">&quot;rBLAST&quot;</span>, <span class="st">&quot;reticulate&quot;</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>             <span class="st">&quot;rjson&quot;</span>, <span class="st">&quot;rlang&quot;</span>, <span class="st">&quot;scales&quot;</span>, <span class="st">&quot;Seurat&quot;</span>, <span class="st">&quot;SeuratDisk&quot;</span>, <span class="st">&quot;SeuratObject&quot;</span>, <span class="st">&quot;shiny&quot;</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>             <span class="st">&quot;shinycssloaders&quot;</span>, <span class="st">&quot;sp&quot;</span>, <span class="st">&quot;STRINGdb&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;SummarizedExperiment&quot;</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>             <span class="st">&quot;tibble&quot;</span>, <span class="st">&quot;tidyr&quot;</span>, <span class="st">&quot;UCell&quot;</span>, <span class="st">&quot;viridis&quot;</span>, <span class="st">&quot;zip&quot;</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>pkg_suggests <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CellChat&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;nichenetr&quot;</span>, <span class="st">&quot;org.Hs.eg.db&quot;</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                  <span class="st">&quot;org.Mm.eg.db&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span>, <span class="st">&quot;SingleR&quot;</span>, <span class="st">&quot;testthat&quot;</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>check_missing_packages <span class="ot">&lt;-</span> <span class="cf">function</span>(pkg_list) {</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  installed_pkgs <span class="ot">&lt;-</span> <span class="fu">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>]</span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  missing_pkgs <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(pkg_list, installed_pkgs)</span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  installed_ok <span class="ot">&lt;-</span> <span class="fu">intersect</span>(pkg_list, installed_pkgs)</span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>  version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;ggplot2&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;4.0.2&quot;</span>){</span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;ggplot2 (requires &gt;= 4.0.2, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>    }</span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>  }</span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;rlang&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;rlang&quot;</span>)</span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;1.1.7&quot;</span>){</span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;rlang (requires &gt;= 1.1.7, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>    }</span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>  }</span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;Matrix&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;Matrix&quot;</span>)</span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;1.6.5&quot;</span>){</span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;Matrix (requires &gt;= 1.6.5, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>    }</span>
-<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a>  }</span>
-<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;SeuratObject&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
-<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;SeuratObject&quot;</span>)</span>
-<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;5.0.2&quot;</span>){</span>
-<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;SeuratObject (requires &gt;= 5.0.2, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
-<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a>    }</span>
-<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a>  }</span>
-<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;Seurat&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
-<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;Seurat&quot;</span>)</span>
-<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;5.1.0&quot;</span>){</span>
-<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;Seurat (requires &gt;= 5.1.0, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
-<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a>    }</span>
-<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a>  }</span>
-<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a></span>
-<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;==================== Package Installation Check ====================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;✅ Installed packages: &quot;</span>, <span class="fu">length</span>(installed_ok), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;❌ Missing packages: &quot;</span>, <span class="fu">length</span>(missing_pkgs), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a></span>
-<span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(missing_pkgs) <span class="sc">&gt;</span> <span class="dv">0</span>){</span>
-<span id="cb4-57"><a href="#cb4-57" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Missing list:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;  - &quot;</span>, missing_pkgs, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>), <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb4-60"><a href="#cb4-60" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">✅ All packages are installed!</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-61"><a href="#cb4-61" tabindex="-1"></a>  }</span>
-<span id="cb4-62"><a href="#cb4-62" tabindex="-1"></a></span>
-<span id="cb4-63"><a href="#cb4-63" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(version_wrong) <span class="sc">&gt;</span> <span class="dv">0</span>){</span>
-<span id="cb4-64"><a href="#cb4-64" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">⚠️  Version mismatches:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-65"><a href="#cb4-65" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;  - &quot;</span>, version_wrong, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>), <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb4-66"><a href="#cb4-66" tabindex="-1"></a>  }</span>
-<span id="cb4-67"><a href="#cb4-67" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;=================================================================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-68"><a href="#cb4-68" tabindex="-1"></a></span>
-<span id="cb4-69"><a href="#cb4-69" tabindex="-1"></a>  <span class="fu">invisible</span>(<span class="fu">list</span>(</span>
-<span id="cb4-70"><a href="#cb4-70" tabindex="-1"></a>    <span class="at">installed =</span> installed_ok,</span>
-<span id="cb4-71"><a href="#cb4-71" tabindex="-1"></a>    <span class="at">missing =</span> missing_pkgs,</span>
-<span id="cb4-72"><a href="#cb4-72" tabindex="-1"></a>    <span class="at">version_mismatch =</span> version_wrong</span>
-<span id="cb4-73"><a href="#cb4-73" tabindex="-1"></a>  ))</span>
-<span id="cb4-74"><a href="#cb4-74" tabindex="-1"></a>}</span>
-<span id="cb4-75"><a href="#cb4-75" tabindex="-1"></a></span>
-<span id="cb4-76"><a href="#cb4-76" tabindex="-1"></a><span class="fu">check_missing_packages</span>(pkg_imports)</span>
-<span id="cb4-77"><a href="#cb4-77" tabindex="-1"></a><span class="fu">check_missing_packages</span>(pkg_suggests)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>pkg_imports <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;anndata&quot;</span>, <span class="st">&quot;AnnotationDbi&quot;</span>, <span class="st">&quot;assertthat&quot;</span>, <span class="st">&quot;AUCell&quot;</span>, <span class="st">&quot;Biostrings&quot;</span>, <span class="st">&quot;clusterProfiler&quot;</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>             <span class="st">&quot;concaveman&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;dbscan&quot;</span>, <span class="st">&quot;distances&quot;</span>, <span class="st">&quot;doParallel&quot;</span>, <span class="st">&quot;DOSE&quot;</span>, <span class="st">&quot;dplyr&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>             <span class="st">&quot;DT&quot;</span>, <span class="st">&quot;FNN&quot;</span>, <span class="st">&quot;foreach&quot;</span>, <span class="st">&quot;furrr&quot;</span>, <span class="st">&quot;future&quot;</span>, <span class="st">&quot;ggdensity&quot;</span>, <span class="st">&quot;ggforce&quot;</span>, <span class="st">&quot;ggh4x&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>             <span class="st">&quot;ggnewscale&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;ggraph&quot;</span>, <span class="st">&quot;ggrepel&quot;</span>, <span class="st">&quot;ggsignif&quot;</span>, <span class="st">&quot;ggvenn&quot;</span>, <span class="st">&quot;GO.db&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>             <span class="st">&quot;GOSemSim&quot;</span>, <span class="st">&quot;igraph&quot;</span>, <span class="st">&quot;imager&quot;</span>, <span class="st">&quot;magrittr&quot;</span>, <span class="st">&quot;Matrix&quot;</span>, <span class="st">&quot;methods&quot;</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>             <span class="st">&quot;paletteer&quot;</span>, <span class="st">&quot;patchwork&quot;</span>, <span class="st">&quot;proxy&quot;</span>, <span class="st">&quot;psych&quot;</span>, <span class="st">&quot;purrr&quot;</span>, <span class="st">&quot;rBLAST&quot;</span>, <span class="st">&quot;reticulate&quot;</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>             <span class="st">&quot;rjson&quot;</span>, <span class="st">&quot;rlang&quot;</span>, <span class="st">&quot;scales&quot;</span>, <span class="st">&quot;Seurat&quot;</span>, <span class="st">&quot;SeuratDisk&quot;</span>, <span class="st">&quot;SeuratObject&quot;</span>, <span class="st">&quot;shiny&quot;</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>             <span class="st">&quot;shinycssloaders&quot;</span>, <span class="st">&quot;sp&quot;</span>, <span class="st">&quot;STRINGdb&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;SummarizedExperiment&quot;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>             <span class="st">&quot;tibble&quot;</span>, <span class="st">&quot;tidyr&quot;</span>, <span class="st">&quot;UCell&quot;</span>, <span class="st">&quot;viridis&quot;</span>, <span class="st">&quot;zip&quot;</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>pkg_suggests <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CellChat&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;mistyR&quot;</span>, <span class="st">&quot;nichenetr&quot;</span>, <span class="st">&quot;org.Hs.eg.db&quot;</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>                  <span class="st">&quot;org.Mm.eg.db&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span>, <span class="st">&quot;SingleR&quot;</span>, <span class="st">&quot;testthat&quot;</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>check_missing_packages <span class="ot">&lt;-</span> <span class="cf">function</span>(pkg_list) {</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  installed_pkgs <span class="ot">&lt;-</span> <span class="fu">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>]</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  missing_pkgs <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(pkg_list, installed_pkgs)</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  installed_ok <span class="ot">&lt;-</span> <span class="fu">intersect</span>(pkg_list, installed_pkgs)</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;ggplot2&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;4.0.2&quot;</span>){</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;ggplot2 (requires &gt;= 4.0.2, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>    }</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>  }</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;rlang&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;rlang&quot;</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;1.1.7&quot;</span>){</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;rlang (requires &gt;= 1.1.7, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>    }</span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>  }</span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;Matrix&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;Matrix&quot;</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;1.6.5&quot;</span>){</span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;Matrix (requires &gt;= 1.6.5, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a>    }</span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a>  }</span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;SeuratObject&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;SeuratObject&quot;</span>)</span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;5.0.2&quot;</span>){</span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;SeuratObject (requires &gt;= 5.0.2, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>    }</span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a>  }</span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">&quot;Seurat&quot;</span> <span class="sc">%in%</span> installed_ok) {</span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">packageVersion</span>(<span class="st">&quot;Seurat&quot;</span>)</span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a>    <span class="cf">if</span>(v <span class="sc">&lt;</span> <span class="st">&quot;5.1.0&quot;</span>){</span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a>      version_wrong <span class="ot">&lt;-</span> <span class="fu">c</span>(version_wrong, <span class="fu">paste0</span>(<span class="st">&quot;Seurat (requires &gt;= 5.1.0, current = &quot;</span>, v, <span class="st">&quot;)&quot;</span>))</span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a>    }</span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a>  }</span>
+<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;==================== Package Installation Check ====================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;✅ Installed packages: &quot;</span>, <span class="fu">length</span>(installed_ok), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;❌ Missing packages: &quot;</span>, <span class="fu">length</span>(missing_pkgs), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(missing_pkgs) <span class="sc">&gt;</span> <span class="dv">0</span>){</span>
+<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Missing list:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;  - &quot;</span>, missing_pkgs, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>), <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">✅ All packages are installed!</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a>  }</span>
+<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(version_wrong) <span class="sc">&gt;</span> <span class="dv">0</span>){</span>
+<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">⚠️  Version mismatches:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;  - &quot;</span>, version_wrong, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>), <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb5-66"><a href="#cb5-66" tabindex="-1"></a>  }</span>
+<span id="cb5-67"><a href="#cb5-67" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;=================================================================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-68"><a href="#cb5-68" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" tabindex="-1"></a>  <span class="fu">invisible</span>(<span class="fu">list</span>(</span>
+<span id="cb5-70"><a href="#cb5-70" tabindex="-1"></a>    <span class="at">installed =</span> installed_ok,</span>
+<span id="cb5-71"><a href="#cb5-71" tabindex="-1"></a>    <span class="at">missing =</span> missing_pkgs,</span>
+<span id="cb5-72"><a href="#cb5-72" tabindex="-1"></a>    <span class="at">version_mismatch =</span> version_wrong</span>
+<span id="cb5-73"><a href="#cb5-73" tabindex="-1"></a>  ))</span>
+<span id="cb5-74"><a href="#cb5-74" tabindex="-1"></a>}</span>
+<span id="cb5-75"><a href="#cb5-75" tabindex="-1"></a></span>
+<span id="cb5-76"><a href="#cb5-76" tabindex="-1"></a><span class="fu">check_missing_packages</span>(pkg_imports)</span>
+<span id="cb5-77"><a href="#cb5-77" tabindex="-1"></a><span class="fu">check_missing_packages</span>(pkg_suggests)</span></code></pre></div>
 <hr />
 </div>
 <div id="manual-installation-of-dependencies" class="section level1">
@@ -492,33 +508,33 @@ binaries), automatic installation may fail. The following steps provide
 manual installation options.</p>
 <div id="seurat-dependencies" class="section level2">
 <h2>Seurat dependencies</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;rlang&#39;</span>, <span class="at">version =</span> <span class="st">&#39;1.1.7&#39;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;Matrix&#39;</span>, <span class="at">version =</span> <span class="st">&#39;1.6.5&#39;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;SeuratObject&#39;</span>, <span class="at">version =</span> <span class="st">&#39;5.0.2&#39;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;Seurat&#39;</span>, <span class="at">version =</span> <span class="st">&#39;5.1.0&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;rlang&#39;</span>, <span class="at">version =</span> <span class="st">&#39;1.1.7&#39;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;Matrix&#39;</span>, <span class="at">version =</span> <span class="st">&#39;1.6.5&#39;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;SeuratObject&#39;</span>, <span class="at">version =</span> <span class="st">&#39;5.0.2&#39;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_version</span>(<span class="st">&#39;Seurat&#39;</span>, <span class="at">version =</span> <span class="st">&#39;5.1.0&#39;</span>)</span></code></pre></div>
 </div>
 <div id="bioconductor-dependencies" class="section level2">
 <h2>Bioconductor dependencies</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>}</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="fu">c</span>(</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="st">&quot;AnnotationDbi&quot;</span>,<span class="st">&quot;AUCell&quot;</span>,<span class="st">&quot;Biostrings&quot;</span>,<span class="st">&quot;clusterProfiler&quot;</span>,<span class="st">&quot;DOSE&quot;</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="st">&quot;GO.db&quot;</span>,<span class="st">&quot;GOSemSim&quot;</span>,<span class="st">&quot;SingleR&quot;</span>,<span class="st">&quot;STRINGdb&quot;</span>,<span class="st">&quot;SummarizedExperiment&quot;</span>,<span class="st">&quot;UCell&quot;</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="fu">c</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="st">&quot;AnnotationDbi&quot;</span>,<span class="st">&quot;AUCell&quot;</span>,<span class="st">&quot;Biostrings&quot;</span>,<span class="st">&quot;clusterProfiler&quot;</span>,<span class="st">&quot;DOSE&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="st">&quot;GO.db&quot;</span>,<span class="st">&quot;GOSemSim&quot;</span>,<span class="st">&quot;SingleR&quot;</span>,<span class="st">&quot;STRINGdb&quot;</span>,<span class="st">&quot;SummarizedExperiment&quot;</span>,<span class="st">&quot;UCell&quot;</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>))</span></code></pre></div>
 </div>
 <div id="github-dependencies" class="section level2">
 <h2>GitHub dependencies</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;devtools&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>}</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jinworks/CellChat&quot;</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;saezlab/mistyR&quot;</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;aeyslab/nichenetr&quot;</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;mhahsler/rBLAST&quot;</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;mojaveazure/seurat-disk&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;devtools&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>}</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jinworks/CellChat&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;saezlab/mistyR&quot;</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;aeyslab/nichenetr&quot;</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;mhahsler/rBLAST&quot;</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;mojaveazure/seurat-disk&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -544,7 +560,7 @@ installed as needed</li>
 </div>
 <div id="session-information" class="section level1">
 <h1>Session information</h1>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
 </div>
 
 

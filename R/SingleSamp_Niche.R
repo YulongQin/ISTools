@@ -656,7 +656,6 @@ CalNicheAggIndex <- function(IST_obj = NULL,samp_type = "SS",
 #'
 #' @return If return_data = TRUE, returns a list of MISTyR results per sample
 #'
-#' @import mistyR
 #' @import distances
 #'
 #' @export
@@ -694,6 +693,9 @@ CalNicheCoLoc <- function(IST_obj = NULL,
   tmp_dir <- tempdir()
   sink(tmp_file,split = TRUE)
   clog_start()
+  if( requireNamespace("mistyR", quietly = TRUE) == FALSE){
+    clog_error("Package 'mistyR' is required but not installed. Please install it first.")
+  }
 
   # >>> Check input patameter
   if (!inherits(IST_obj, "IST")) {
@@ -786,20 +788,22 @@ CalNicheCoLoc <- function(IST_obj = NULL,
     clog_normal("Make syntactically valid names out of column names...")
     colnames(expr) <- make.names(colnames(expr))
     pos <- Niche_cells[,c("x","y")]
+
+    #> mistyR
     clog_normal("Create mistyR intraview, juxtaview and paraview. It may take a while...")
-    misty.intra <- create_initial_view(expr)
+    misty.intra <- mistyR::create_initial_view(expr)
     misty.views <- misty.intra %>%
-      add_juxtaview(pos, neighbor.thr = juxtaview_radius*i_interval) %>%  # add_juxtaview，阈值和半径过大会比较慢
-      add_paraview(pos, l = paraview_radius*i_interval)
+      mistyR::add_juxtaview(pos, neighbor.thr = juxtaview_radius*i_interval) %>%  # add_juxtaview，阈值和半径过大会比较慢
+      mistyR::add_paraview(pos, l = paraview_radius*i_interval)
     view_nms <- c("intra", paste0("juxta.", juxtaview_radius), paste0("para.", paraview_radius))
     results_list[[i_single]][["data"]][["misty_views"]] <- misty.views
 
     #>
     clog_normal("Run mistyR model, it may take a while...")
     misty.results <- misty.views %>%
-      run_misty(results.folder = paste0(tmp_dir,"/results"),
+      mistyR::run_misty(results.folder = paste0(tmp_dir,"/results"),
                 seed = 42,cv.folds = 10) %>%
-      collect_results()
+      mistyR::collect_results()
     results_list[[i_single]][["data"]][["misty_results"]] <- misty.results
 
     #>
@@ -807,8 +811,8 @@ CalNicheCoLoc <- function(IST_obj = NULL,
     pdf(paste0(photo_dir,"/",i_single,"_MistyR_Improvement_Stats.pdf"),
         width = 6, height = 6)
     misty.results %>%
-      plot_improvement_stats("gain.R2") %>%
-      plot_improvement_stats("gain.RMSE")
+      mistyR::plot_improvement_stats("gain.R2") %>%
+      mistyR::plot_improvement_stats("gain.RMSE")
     dev.off()
 
     #>
@@ -816,7 +820,7 @@ CalNicheCoLoc <- function(IST_obj = NULL,
     pdf(paste0(photo_dir,"/",i_single,"_MistyR_View_Contributions.pdf"),
         width = 6, height = 6)
     misty.results %>%
-      plot_view_contributions()
+      mistyR::plot_view_contributions()
     dev.off()
 
     #>
@@ -849,7 +853,7 @@ CalNicheCoLoc <- function(IST_obj = NULL,
     for(i in seq_along(view_nms)){
       view_nm <- view_nms[i]
       misty.results %>%
-        plot_interaction_communities(view_nm, cutoff = comm_cutoff)
+        mistyR::plot_interaction_communities(view_nm, cutoff = comm_cutoff)
     }
     dev.off()
   }
