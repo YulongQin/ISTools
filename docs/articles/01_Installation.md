@@ -23,7 +23,9 @@ consists of:
 
 ------------------------------------------------------------------------
 
-## Configure mirrors
+## Configure
+
+### mirrors
 
 To ensure stable and fast installation, users may configure CRAN and
 Bioconductor mirrors depending on their location.
@@ -38,45 +40,83 @@ options("repos" = c(CRAN="https://cloud.r-project.org"))
 options(BioC_mirror = "https://bioconductor.org")
 ```
 
-------------------------------------------------------------------------
-
-## Prepare library path
+### library path
 
 Given the number of dependencies, it is strongly recommended to use an
 isolated library path.
+
+This prevents conflicts with existing R environments and improves
+reproducibility.
 
 ``` r
 .libPaths("./library_ISTools/")  # modify as needed
 .libPaths()
 ```
 
-This prevents conflicts with existing R environments and improves
-reproducibility.
+### additional configuration
+
+``` r
+# Increase download timeout to avoid failures caused by unstable network connections
+options(timeout = 300)
+
+# Enable parallel compilation to accelerate package installation
+Sys.setenv(MAKEFLAGS = paste0("-j", parallel::detectCores() - 2))
+
+# Optimize compilation flags (reduce debug info and improve performance)
+Sys.setenv(
+  PKG_CFLAGS = "-O2 -g0 -DNDEBUG",
+  PKG_CXXFLAGS = "-O2 -g0 -DNDEBUG"
+)
+```
 
 ------------------------------------------------------------------------
 
 ## Pre-installation requirements
 
-Before installing ISTools, we recommend manually installing a small set
-of core system-dependent packages that are frequently associated with
-installation failures.
+Before installing ISTools, we recommend manually installing a subset of
+core dependencies that are commonly associated with installation
+failures.
 
-Installing them in advance can significantly reduce the likelihood of
-installation errors.
+Installing these packages in advance can significantly improve
+installation stability.
+
+> Installation from source is recommended
 
 ``` r
-# Core system-related dependencies 
-install.packages("openssl") # may fail due to network or SSL configuration; retry if necessary 
-install.packages("curl") # required for data transfer and remote access 
+# Core infrastructure package
+install.packages("rlang") # >= 1.1.7
 
-# Core R infrastructure 
-install.packages("rlang") # >= 1.1.7, required by tidyverse ecosystem 
-install.packages("Matrix", type = "binary") # >= 1.6.5, required for sparse matrix operations
+
+# These packages require network access (e.g., GitHub or external sources).
+# Installation failures (e.g., "Error in download.file") are often caused by network issues.
+# Retry installation or consider using a proxy/VPN if necessary.
+# Note: this is not a complete list, but these are the most failure-prone packages.
+install.packages("openssl") # >= 2.3.5
+install.packages("curl") # >= 7.0.0 
+install.packages("systemfonts")
+
+
+# These packages are recommended to be installed as binary versions
+# to avoid compilation errors and reduce installation time
+install.packages("Matrix", type = "binary") # >= 1.6.5
+install.packages("RcppArmadillo", type = "binary")
+install.packages("uwot", type = "binary")
+install.packages("units", type = "binary")
+install.packages("ggforce", type = "binary")
 ```
 
 ------------------------------------------------------------------------
 
 ## Install ISTools
+
+If installation fails, we recommend re-running the installation command
+multiple times and using the dependency checking utility to identify
+missing packages. Problematic packages should then be installed
+individually until all dependencies are successfully resolved.
+
+> When prompted to update packages, select “3: None” to avoid
+> overwriting previously installed versions (e.g., Matrix). Installation
+> from source is recommended.
 
 ``` r
 if (!requireNamespace("remotes", quietly = TRUE)) {
@@ -86,8 +126,8 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 remotes::install_github("YulongQin/ISTools")
 ```
 
-> Installation from source is recommended and may take approximately
-> 20–30 minutes depending on system configuration.
+Installation may take approximately 30–60 minutes depending on system
+configuration.
 
 ------------------------------------------------------------------------
 

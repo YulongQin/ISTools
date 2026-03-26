@@ -93,9 +93,12 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="section level3">
-<h3 id="configure-mirrors">Configure mirrors<a class="anchor" aria-label="anchor" href="#configure-mirrors"></a>
-</h3>
+<div class="section level4">
+<h4 id="configure">Configure<a class="anchor" aria-label="anchor" href="#configure"></a>
+</h4>
+<ul>
+<li>mirrors</li>
+</ul>
 <p>To ensure stable and fast installation, users may configure CRAN and Bioconductor mirrors depending on their location.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Recommended for users in China</span></span>
@@ -105,43 +108,77 @@
 <span><span class="co"># Recommended for users outside China</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"repos"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>CRAN<span class="op">=</span><span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>BioC_mirror <span class="op">=</span> <span class="st">"https://bioconductor.org"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="prepare-library-path">Prepare library path<a class="anchor" aria-label="anchor" href="#prepare-library-path"></a>
-</h3>
+<ul>
+<li>library path</li>
+</ul>
 <p>Given the number of dependencies, it is strongly recommended to use an isolated library path.</p>
+<p>This prevents conflicts with existing R environments and improves reproducibility.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="st">"./library_ISTools/"</span><span class="op">)</span>  <span class="co"># modify as needed</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>This prevents conflicts with existing R environments and improves reproducibility.</p>
+<ul>
+<li>additional configuration</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Increase download timeout to avoid failures caused by unstable network connections</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Enable parallel compilation to accelerate package installation</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MAKEFLAGS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"-j"</span>, <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Optimize compilation flags (reduce debug info and improve performance)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span></span>
+<span>  PKG_CFLAGS <span class="op">=</span> <span class="st">"-O2 -g0 -DNDEBUG"</span>,</span>
+<span>  PKG_CXXFLAGS <span class="op">=</span> <span class="st">"-O2 -g0 -DNDEBUG"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="pre-installation-requirements">Pre-installation requirements<a class="anchor" aria-label="anchor" href="#pre-installation-requirements"></a>
 </h3>
-<p>Before installing ISTools, we recommend manually installing a small set of core system-dependent packages that are frequently associated with installation failures.</p>
-<p>Installing them in advance can significantly reduce the likelihood of installation errors.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Core system-related dependencies </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"openssl"</span><span class="op">)</span> <span class="co"># may fail due to network or SSL configuration; retry if necessary </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="co"># required for data transfer and remote access </span></span>
+<p>Before installing ISTools, we recommend manually installing a subset of core dependencies that are commonly associated with installation failures.</p>
+<p>Installing these packages in advance can significantly improve installation stability.</p>
+<blockquote>
+<p>Installation from source is recommended</p>
+</blockquote>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Core infrastructure package</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rlang"</span><span class="op">)</span> <span class="co"># &gt;= 1.1.7</span></span>
 <span></span>
-<span><span class="co"># Core R infrastructure </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rlang"</span><span class="op">)</span> <span class="co"># &gt;= 1.1.7, required by tidyverse ecosystem </span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"Matrix"</span>, type <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span> <span class="co"># &gt;= 1.6.5, required for sparse matrix operations</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># These packages require network access (e.g., GitHub or external sources).</span></span>
+<span><span class="co"># Installation failures (e.g., "Error in download.file") are often caused by network issues.</span></span>
+<span><span class="co"># Retry installation or consider using a proxy/VPN if necessary.</span></span>
+<span><span class="co"># Note: this is not a complete list, but these are the most failure-prone packages.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"openssl"</span><span class="op">)</span> <span class="co"># &gt;= 2.3.5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"curl"</span><span class="op">)</span> <span class="co"># &gt;= 7.0.0 </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"systemfonts"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># These packages are recommended to be installed as binary versions</span></span>
+<span><span class="co"># to avoid compilation errors and reduce installation time</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"Matrix"</span>, type <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span> <span class="co"># &gt;= 1.6.5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"RcppArmadillo"</span>, type <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"uwot"</span>, type <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"units"</span>, type <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ggforce"</span>, type <span class="op">=</span> <span class="st">"binary"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="install-istools">Install ISTools<a class="anchor" aria-label="anchor" href="#install-istools"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>If installation fails, we recommend re-running the installation command multiple times and using the dependency checking utility to identify missing packages. Problematic packages should then be installed individually until all dependencies are successfully resolved.</p>
+<blockquote>
+<p>When prompted to update packages, select “3: None” to avoid overwriting previously installed versions (e.g., Matrix). Installation from source is recommended.</p>
+</blockquote>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"YulongQin/ISTools"</span><span class="op">)</span></span></code></pre></div>
+<p>Installation may take approximately 30–60 minutes depending on system configuration.</p>
 <blockquote>
-<p>Installation from source is recommended and may take approximately 20–30 minutes depending on system configuration.</p>
-</blockquote>
 <p>If the installation fails, please refer to the <a href="https://yulongqin.github.io/ISTools/articles/01_Installation.html" class="external-link">installation tutorial</a> for manual dependency setup</p>
+</blockquote>
 </div>
 </div>
 <div class="section level2">
